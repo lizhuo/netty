@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.HttpServerCodec;
 /**
  * @author lizhuo
  * @Description: Chinnel Init
+ * 此种方式 本类实例 在 pipeline 初始化后会被 GC ？
  * @date 2020-02-29 15:49
  */
 public class PearChannelInitializer extends ChannelInitializer<SocketChannel> {

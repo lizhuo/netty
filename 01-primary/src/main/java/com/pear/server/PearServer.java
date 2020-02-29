@@ -24,8 +24,8 @@ public class PearServer {
 			// 用于启动 ServerChannel
 			ServerBootstrap bootstrap = new ServerBootstrap();
 			bootstrap.group(parentGroup, childGroup)  // specify channel
-				.channel(NioServerSocketChannel.class) // specify nio to communicate
-				.childHandler(new PearChannelInitializer());  // 指定childGroup中的eventLoop所绑定的线程要执行的处理器
+				.channel(NioServerSocketChannel.class)  // specify nio to communicate
+				.childHandler(new PearChannelInitializer());  // specify childGroup中的eventLoop所绑定的线程要执行的处理器
 
 			// 指定当前服务器监听端口
 			// bind 方法执行是异步的
@@ -42,6 +42,7 @@ public class PearServer {
 			// 优雅关闭
 			parentGroup.shutdownGracefully();
 			childGroup.shutdownGracefully();
+			System.out.println("Server shutdown");
 		}
 
 	}
