@@ -16,17 +16,17 @@ public class PearHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		// 客户端数据 输出只 console
-		System.out.println("client " + ctx.channel().remoteAddress() + " msg: " + msg);
+		// 客户端数据 输出至 console
+		System.out.println("from client " + ctx.channel().remoteAddress() + " msg: " + msg);
 
 		// 发送给客户端数据
 		ctx.writeAndFlush("from server: " + UUID.randomUUID());
-		TimeUnit.SECONDS.sleep(500);
+		TimeUnit.MILLISECONDS.sleep(500);
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		ctx.channel().close();
+		ctx .close();
 	}
 
 }
