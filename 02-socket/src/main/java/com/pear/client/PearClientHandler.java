@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author lizhuo
  * @Description: 客户端处理类
- *
+ * SimpleChannelInboundHandler 会释放 msg
  * @date 2020-02-29 18:56
  */
 public class PearClientHandler extends SimpleChannelInboundHandler<String> {
