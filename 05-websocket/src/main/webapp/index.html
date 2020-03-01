@@ -31,7 +31,7 @@
         socket.onclose = function (ev) {
             // 显示连接断开
             var cl = document.getElementById("chat-list");
-            cl.value = "disconnected to localhost:8888";
+            cl.value = cl.value + "\n" + "disconnected to localhost:8888";
         }
 
     } else {
@@ -53,9 +53,9 @@
 <body>
 
     <form>
-        <textarea id="sender" style="width: 150px; height: 150px"></textarea>
-        <input type="button" value="send" onclick="send(this.form.message.value)">
-        <textarea id="chat-list" style="width: 150px; height: 150px"></textarea>
+        <textarea id="sender" style="width: 300px; height: 300px"></textarea>
+        <input type="button" value="send" onclick="send(this.form.sender.value)">
+        <textarea id="chat-list" style="width: 300px; height: 300px"></textarea>
     </form>
 
 </body>

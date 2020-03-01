@@ -25,6 +25,7 @@ public class PearHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		String text = ((TextWebSocketFrame) msg).text();
+		System.out.println("from client: " + text);
 		ctx.writeAndFlush(new TextWebSocketFrame("from client: " + text));
 	}
 
