@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>web socket </title>
+</head>
+
+<script type="text/javascript">
+
+    var socket;
+
+    if (window.WebSocket) {
+        // 创建 WebSocket 连接
+        socket = new WebSocket("ws://localhost:8888/pear");
+
+        // 当与服务端 WS 连接创建成功后会触发 onopen 执行
+        socket.onopen = function (ev) {
+            // 显示连接建立
+            var cl = document.getElementById("chat-list");
+            cl.value = "connected to localhost:8888";
+        }
+
+        // 当接收到服务端发送的消息时会触发执行
+        socket.onmessage = function (ev) {
+             // 将接收到的服务端新消息追加到聊天列表中
+            var cl = document.getElementById("chat-list");
+            cl.value = cl.value + "\n" + ev.data;
+        }
+
+        // 当与服务端 WS 连接断开时会触发 onclose 执行
+        socket.onclose = function (ev) {
+            // 显示连接断开
+            var cl = document.getElementById("chat-list");
+            cl.value = "disconnected to localhost:8888";
+        }
+
+    } else {
+        alert("browser not support WebSocket.")
+    }
+
+    // 发送消息
+    function send(msg) {
+        // 若当前浏览器不支持 WebSocket 则直接 return
+        if (!window.WebSocket) return;
+        // 若 WS 连接已打开
+        if (socket.readyState = WebSocket.OPEN) {
+            // 通过 WS 连接向服务器发送消息
+            socket.send(msg);
+        }
+    }
+</script>
+
+<body>
+
+    <form>
+        <textarea id="sender" style="width: 150px; height: 150px"></textarea>
+        <input type="button" value="send" onclick="send(this.form.message.value)">
+        <textarea id="chat-list" style="width: 150px; height: 150px"></textarea>
+    </form>
+
+</body>
+</html>
