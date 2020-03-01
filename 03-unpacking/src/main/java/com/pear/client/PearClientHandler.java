@@ -1,5 +1,7 @@
 package com.pear.client;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -98,8 +100,21 @@ public class PearClientHandler extends ChannelInboundHandlerAdapter {
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		ctx.channel().writeAndFlush(message);
-		ctx.channel().writeAndFlush(message);
+
+		byte[] bytes = this.message.getBytes();
+
+		ByteBuf buffer = null;
+
+		for (int i=0; i<2; i++) {
+			// 申请缓存空间
+			buffer = Unpooled.buffer(bytes.length);
+			// 写入缓存
+			buffer.writeBytes(bytes);
+			ctx.writeAndFlush(buffer);
+		}
+
+		//ctx.channel().writeAndFlush(message);
+		//ctx.channel().writeAndFlush(message);
 	}
 
 	@Override
