@@ -3,7 +3,10 @@ package com.pear.server;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * @author lizhuo
@@ -19,14 +22,16 @@ public class PearChannelInitializer extends ChannelInitializer<SocketChannel> {
 	 * @throws Exception
 	 */
 	protected void initChannel(SocketChannel ch) throws Exception {
-		// 从 channel 中获取 pipeline
 		ChannelPipeline pipeline = ch.pipeline();
-		// 将 HttpServerCodec 放入pipeline
-		// HttpServerCodec is A combination of HttpRequestDecoder and HttpResponseEncoder
-		// HttpRequestDecoder 将 channel 中 ByteBuf 解码为 HttpRequest
-		// HttpResponseEncoder 将 channel 中 HttpResponse 编码为 ByteBuf
+		// 添加 Http 编解码器
 		pipeline.addLast(new HttpServerCodec());
-		// 自定义
+		// 添加大块数据 Chunk 处理器
+		pipeline.addLast(new ChunkedWriteHandler());
+		// 添加 Chunk 聚合处理器
+		pipeline.addLast(new HttpObjectAggregator(4096));
+		// 添加 WebSocket 协议转换处理器
+		pipeline.addLast(new WebSocketServerProtocolHandler("/pear"));
+		// 添加自定义处理器
 		pipeline.addLast(new PearHandler());
 	}
 
