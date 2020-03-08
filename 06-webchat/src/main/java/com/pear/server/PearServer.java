@@ -37,7 +37,7 @@ public class PearServer {
 							// StringEncoder 自负床编码器：将 String 编码 为ByteBuf 发送到 Channel 中
 							pipeline.addLast(new StringEncoder());
 
-							pipeline.addLast(new PearHandler());
+							pipeline.addLast(new PearServerHandler());
 						}
 
 					});

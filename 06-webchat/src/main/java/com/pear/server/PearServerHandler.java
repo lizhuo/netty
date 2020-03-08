@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * 需求：实现处理 C/S 模式的 socket 通信 demo
  * @date 2020-02-29 18:21
  */
-public class PearHandler extends ChannelInboundHandlerAdapter {
+public class PearServerHandler extends ChannelInboundHandlerAdapter {
 
 	/**
 	 * 创建一个channelGroup 其是一个线程安全的集合，其中存放着与当前服务器相连的所有Active状态的Channel
@@ -38,9 +38,9 @@ public class PearHandler extends ChannelInboundHandlerAdapter {
 		// 发送给自己的消息与发送给大家的消息是不一样的
 		group.forEach(ch -> {
 			if (ch != channel ) {
-				group.writeAndFlush(channel.remoteAddress() + ": " +msg + "\n");
+				ch.writeAndFlush(channel.remoteAddress() + ": " +msg + "\n");
 			} else {
-				group.writeAndFlush("me: " +msg + "\n");
+				channel.writeAndFlush("me: " +msg + "\n");
 			}
 		});
 	}
@@ -71,7 +71,7 @@ public class PearHandler extends ChannelInboundHandlerAdapter {
 		// 获取到当前要断开连接的Channel
 		Channel channel = ctx.channel();
 		System.out.println(channel.remoteAddress() + "---下线");
-		group.writeAndFlush(channel.remoteAddress() + "---下线\n");
+		group.writeAndFlush(channel.remoteAddress() + "下线，当前在线人数：" + group.size() + "\n");
 
 		// group 中存放的都是active状态channel 一旦某个channel不是active
 		// group 会自动将其剔除，所以下面语句不需要执行

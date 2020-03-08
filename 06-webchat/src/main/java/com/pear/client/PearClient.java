@@ -25,37 +25,33 @@ public class PearClient {
 
 		NioEventLoopGroup group = new NioEventLoopGroup();
 
-		try {
-			Bootstrap bootstrap = new Bootstrap();
-			bootstrap.group(group)
-					.channel(NioSocketChannel.class)
-					.handler(new ChannelInitializer<SocketChannel>() {
+		Bootstrap bootstrap = new Bootstrap();
+		bootstrap.group(group)
+				.channel(NioSocketChannel.class)
+				.handler(new ChannelInitializer<SocketChannel>() {
 
-						protected void initChannel(SocketChannel ch) throws Exception {
-							ChannelPipeline pipeline = ch.pipeline();
-							pipeline.addLast(new LineBasedFrameDecoder(2048));
-							pipeline.addLast(new StringDecoder());
-							pipeline.addLast(new StringEncoder());
-							pipeline.addLast(new PearClientHandler());
-						}
+					protected void initChannel(SocketChannel ch) throws Exception {
+						ChannelPipeline pipeline = ch.pipeline();
+						pipeline.addLast(new LineBasedFrameDecoder(2048));
+						pipeline.addLast(new StringDecoder());
+						pipeline.addLast(new StringEncoder());
+						pipeline.addLast(new PearClientHandler());
+					}
 
-					});
+				});
 
-			ChannelFuture future = bootstrap.connect("localhost", 8888).sync();
-			System.out.println("connect to localhost:8888");
+		ChannelFuture future = bootstrap.connect("localhost", 8888).sync();
+		System.out.println("connect to localhost:8888");
 
-			// 获取键盘输入
-			InputStreamReader is = new InputStreamReader(System.in, "utf-8");
-			BufferedReader br = new BufferedReader(is);
+		// 获取键盘输入
+		InputStreamReader is = new InputStreamReader(System.in, "utf-8");
+		BufferedReader br = new BufferedReader(is);
 
-			// 将输入内容发送给channel
-			future.channel().writeAndFlush(br.readLine() + "\r\n");
+		// 将输入内容发送给channel
+		future.channel().writeAndFlush(br.readLine() + "\r\n");
 
-			future.channel().closeFuture().sync();
-		} finally {
-			group.shutdownGracefully();
-			System.out.println("disconnect to localhost:8888");
-		}
+		future.channel().closeFuture().sync();
+		System.out.println("disconnect to localhost:8888");
 	}
 
 }
