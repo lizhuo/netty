@@ -11,7 +11,7 @@ import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * @author lizhuo
- * @Description: netty server demo
+ * @Description: netty server web chat demo server
  * @date 2020-02-29 17:52
  */
 public class PearServer {

@@ -23,19 +23,7 @@ public class PearClientHandler extends SimpleChannelInboundHandler<String> {
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 		// 服务端数据 输出至 console
-		System.out.println("from server " + ctx.channel().remoteAddress() + " msg: " + msg);
-		ctx.channel().writeAndFlush("from client " + LocalDateTime.now());
- 		TimeUnit.MILLISECONDS.sleep(500);
-	}
-
-	/**
-	 * 当 Channel 被激活 会触发该方法执行
-	 * @param ctx
-	 * @throws Exception
-	 */
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		ctx.channel().writeAndFlush("from client begin talking");
+		System.out.println(msg);
 	}
 
 	@Override
