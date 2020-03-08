@@ -36,7 +36,7 @@ public class PearServerHandler extends ChannelInboundHandlerAdapter {
 			}
 			System.out.println(eventDesc);
 			// 空闲超时关闭连接
-			ctx.close();
+			//ctx.close();
 		} else {
 			// 触发其他事件
 			super.userEventTriggered(ctx, evt);

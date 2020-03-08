@@ -36,6 +36,12 @@ public class PearServer {
 							// 若3秒内未发生读操作，则会触发读操作空闲
 							// 若5秒内未发生写操作，则会触发写操作空闲
 							pipeline.addLast(new IdleStateHandler(3, 5, 0));
+
+							// 若5秒内即发生读也发生写操作，才不会触发all操作空闲事件
+							// 若5秒内读写有任何一项没发生，都会触发all操作空闲事件
+							// 可参考 02-socket 连续发送消息项目
+							//pipeline.addLast(new IdleStateHandler(3, 5, 0));
+
 							// StringDecoder 字符串解码器：将 channel 中的 ByteBuf 数据解码为 String
 							pipeline.addLast(new StringDecoder());
 							// StringEncoder 自负床编码器：将 String 编码 为ByteBuf 发送到 Channel 中
