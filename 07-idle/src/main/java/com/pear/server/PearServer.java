@@ -44,7 +44,7 @@ public class PearServer {
 
 							// StringDecoder 字符串解码器：将 channel 中的 ByteBuf 数据解码为 String
 							pipeline.addLast(new StringDecoder());
-							// StringEncoder 自负床编码器：将 String 编码 为ByteBuf 发送到 Channel 中
+							// StringEncoder 字符串编码器：将 String 编码 为ByteBuf 发送到 Channel 中
 							pipeline.addLast(new StringEncoder());
 
 							pipeline.addLast(new PearServerHandler());
